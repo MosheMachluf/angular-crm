@@ -1,0 +1,208 @@
+<app-page-header title="update customer" icon="fas fa-user-edit" description="">
+</app-page-header>
+
+<div class="row">
+  <form
+    autocomplete="off"
+    novalidate
+    class="col-md-8 mx-auto"
+    #customerForm="ngForm"
+    (ngSubmit)="updateCustomer(customerForm)"
+  >
+    <!-- First Name, Last Name -->
+    <div class="row">
+      <div class="col-md-6 form-group">
+        <label for="first-name"
+          ><span class="text-danger">*</span> First Name</label
+        >
+        <input
+          type="text"
+          [disabled]="!editCustomer"
+          #firstName="ngModel"
+          [(ngModel)]="editCustomer.firstName"
+          name="firstName"
+          id="first-name"
+          class="form-control"
+          minlength="2"
+          required
+          [ngClass]="{
+            'is-invalid': firstName.errors && firstName.touched,
+            'is-valid': !firstName.errors && firstName.touched
+          }"
+        />
+
+        <div [hidden]="!firstName.errors?.required" class="invalid-feedback">
+          Please enter your First Name
+        </div>
+        <div [hidden]="!firstName.errors?.minlength" class="invalid-feedback">
+          The First Name must be at least
+          {{ firstName.errors?.minlength?.requiredLength }} characters
+        </div>
+      </div>
+
+      <div class="col-md-6 form-group">
+        <label for="last-name"
+          ><span class="text-danger">*</span> Last Name</label
+        >
+        <input
+          type="text"
+          [disabled]="!editCustomer"
+          #lastName="ngModel"
+          [(ngModel)]="editCustomer.lastName"
+          name="lastName"
+          id="last-name"
+          class="form-control"
+          minlength="2"
+          required
+          [ngClass]="{
+            'is-invalid': lastName.errors && lastName.touched,
+            'is-valid': !lastName.errors && lastName.touched
+          }"
+        />
+
+        <div [hidden]="!lastName.errors?.required" class="invalid-feedback">
+          Please enter your Last Name
+        </div>
+        <div [hidden]="!lastName.errors?.minlength" class="invalid-feedback">
+          The Last Name must be at least
+          {{ lastName.errors?.minlength?.requiredLength }} characters
+        </div>
+      </div>
+    </div>
+
+    <!-- Email, Phone -->
+    <div class="row">
+      <div class="col-md-6 form-group">
+        <label for="email"><span class="text-danger">*</span> Email</label>
+        <input
+          type="text"
+          [disabled]="!editCustomer"
+          #email="ngModel"
+          [(ngModel)]="editCustomer.email"
+          name="email"
+          id="email"
+          class="form-control"
+          required
+          pattern=""
+          [ngClass]="{
+            'is-invalid': email.errors && email.touched,
+            'is-valid': !email.errors && email.touched
+          }"
+        />
+
+        <div [hidden]="!email.errors?.required" class="invalid-feedback">
+          Please enter your email
+        </div>
+        <div [hidden]="!email.errors?.pattern" class="invalid-feedback">
+          Please enter an valid email
+        </div>
+      </div>
+
+      <div class="col-md-6 form-group">
+        <label for="phone"><span class="text-danger">*</span> Phone</label>
+        <input
+          type="tel"
+          [disabled]="!editCustomer"
+          #phone="ngModel"
+          [(ngModel)]="editCustomer.phone"
+          name="phone"
+          id="phone"
+          class="form-control"
+          required
+          pattern=""
+          [ngClass]="{
+            'is-invalid': phone.errors && phone.touched,
+            'is-valid': !phone.errors && phone.touched
+          }"
+        />
+        <div [hidden]="!phone.errors?.required" class="invalid-feedback">
+          Please enter your phone
+        </div>
+        <div [hidden]="!phone.errors?.pattern" class="invalid-feedback">
+          Please enter an valid phone
+        </div>
+      </div>
+    </div>
+
+    <!-- Address -->
+    <div class="form-group">
+      <label for="address"><span class="text-danger">*</span> Address</label>
+      <select
+        #address="ngModel"
+        [(ngModel)]="editCustomer.address"
+        id="address"
+        class="form-control"
+        name="address"
+        required
+        [ngClass]="{
+          'is-invalid': address.errors && address.touched,
+          'is-valid': !address.errors && address.touched
+        }"
+        [value]="editCustomer.address"
+      >
+        <option
+          [value]="
+            city.english_name + ' - ' + city.name + ' - ' + city.shem_napa
+          "
+          *ngFor="let city of cities"
+        >
+          {{ city.english_name }} - {{ city.name }} -
+          {{ city.shem_napa }}
+        </option>
+      </select>
+
+      <!-- <input
+        type="text"
+        [disabled]="!editCustomer"
+        #address="ngModel"
+        [(ngModel)]="editCustomer.address"
+        name="address"
+        id="address"
+        class="form-control"
+        minlength="2"
+        required
+        [ngClass]="{
+          'is-invalid': address.errors && address.touched,
+          'is-valid': !address.errors && address.touched
+        }"
+      /> -->
+      <div [hidden]="!address.errors?.required" class="invalid-feedback">
+        Please enter your address
+      </div>
+      <div [hidden]="!address.errors?.minlength" class="invalid-feedback">
+        The address must be at least
+        {{ address.errors?.minlength?.requiredLength }} characters
+      </div>
+    </div>
+    <!-- Notes -->
+    <div class="form-group">
+      <label for="notes">Notes</label>
+      <textarea
+        #notes="ngModel"
+        [(ngModel)]="editCustomer.notes"
+        name="notes"
+        id="notes"
+        class="form-control"
+        cols="30"
+        rows="10"
+      ></textarea>
+    </div>
+
+    <div class="fixed-bottom bg-light p-3 mt-4 text-center">
+      <button class="btn btn-secondary" routerLink="/customers">Cancel</button>
+      <input
+        type="reset"
+        class="btn btn-danger mx-3"
+        value="Reset"
+        (click)="resetForm(customerForm)"
+      />
+      <button
+        class="btn btn-primary"
+        type="submit"
+        [disabled]="!customerForm.valid"
+      >
+        Save
+      </button>
+    </div>
+  </form>
+</div>

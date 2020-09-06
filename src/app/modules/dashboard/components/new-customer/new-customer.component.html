@@ -1,0 +1,211 @@
+<app-page-header
+  title="add Customer Form"
+  icon="fas fa-plus-circle"
+  description="add a new customer"
+>
+</app-page-header>
+
+<div class="row">
+  <form
+    autocomplete="off"
+    novalidate
+    class="col-md-8 mx-auto"
+    #customerForm="ngForm"
+    (ngSubmit)="addNewCustomer(customerForm)"
+  >
+    <!-- First Name, Last Name -->
+    <div class="row">
+      <div class="col-md-6 form-group">
+        <label for="first-name"
+          ><span class="text-danger">*</span> First Name</label
+        >
+        <input
+          type="text"
+          #firstName="ngModel"
+          [(ngModel)]="newCustomer.firstName"
+          name="firstName"
+          id="first-name"
+          class="form-control"
+          minlength="2"
+          required
+          [ngClass]="{
+            'is-invalid': firstName.errors && firstName.touched,
+            'is-valid': !firstName.errors && firstName.touched
+          }"
+        />
+
+        <div [hidden]="!firstName.errors?.required" class="invalid-feedback">
+          Please enter your First Name
+        </div>
+        <div [hidden]="!firstName.errors?.minlength" class="invalid-feedback">
+          The First Name must be at least
+          {{ firstName.errors?.minlength?.requiredLength }} characters
+        </div>
+      </div>
+
+      <div class="col-md-6 form-group">
+        <label for="last-name"
+          ><span class="text-danger">*</span> Last Name</label
+        >
+        <input
+          type="text"
+          #lastName="ngModel"
+          [(ngModel)]="newCustomer.lastName"
+          name="lastName"
+          id="last-name"
+          class="form-control"
+          minlength="2"
+          required
+          [ngClass]="{
+            'is-invalid': lastName.errors && lastName.touched,
+            'is-valid': !lastName.errors && lastName.touched
+          }"
+        />
+
+        <div [hidden]="!lastName.errors?.required" class="invalid-feedback">
+          Please enter your Last Name
+        </div>
+        <div [hidden]="!lastName.errors?.minlength" class="invalid-feedback">
+          The Last Name must be at least
+          {{ lastName.errors?.minlength?.requiredLength }} characters
+        </div>
+      </div>
+    </div>
+
+    <!-- Email, Phone -->
+    <div class="row">
+      <div class="col-md-6 form-group">
+        <label for="email"><span class="text-danger">*</span> Email</label>
+        <input
+          type="text"
+          #email="ngModel"
+          [(ngModel)]="newCustomer.email"
+          name="email"
+          id="email"
+          class="form-control"
+          required
+          email
+          [ngClass]="{
+            'is-invalid': email.errors && email.touched,
+            'is-valid': !email.errors && email.touched
+          }"
+        />
+        <div [hidden]="!email.errors?.required" class="invalid-feedback">
+          Please enter your email
+        </div>
+        <div [hidden]="!email.errors?.email" class="invalid-feedback">
+          Please enter an valid email
+        </div>
+      </div>
+
+      <div class="col-md-6 form-group">
+        <label for="phone"><span class="text-danger">*</span> Phone</label>
+        <input
+          type="tel"
+          #phone="ngModel"
+          [(ngModel)]="newCustomer.phone"
+          name="phone"
+          id="phone"
+          class="form-control"
+          required
+          pattern="^(([+]{0,1}\d{2})|\d?)[\s-]?[0-9]{2}[\s-]?[0-9]{3}[\s-]?[0-9]{4}$"
+          [ngClass]="{
+            'is-invalid': phone.errors && phone.touched,
+            'is-valid': !phone.errors && phone.touched
+          }"
+        />
+        <div [hidden]="!phone.errors?.required" class="invalid-feedback">
+          Please enter your phone
+        </div>
+        <div [hidden]="!phone.errors?.pattern" class="invalid-feedback">
+          Please enter an valid phone
+        </div>
+      </div>
+    </div>
+
+    <!-- Address -->
+    <div class="form-group">
+      <label for="address"><span class="text-danger">*</span> Address</label>
+      <!-- <select
+        #address="ngModel"
+        [(ngModel)]="newCustomer.address"
+        id="address"
+        class="form-control select-search"
+        name="address"
+        required
+        [ngClass]="{
+          'is-invalid': address.errors && address.touched,
+          'is-valid': !address.errors && address.touched
+        }"
+      >
+        <option
+          [value]="[city.english_name, city.name, city.shem_napa]"
+          *ngFor="let city of cities"
+        >
+          {{ city.english_name }} - {{ city.name }} -
+          {{ city.shem_napa }}
+        </option>
+      </select> -->
+
+      <input
+        type="text"
+        #address="ngModel"
+        [(ngModel)]="newCustomer.address"
+        name="address"
+        id="address"
+        class="form-control"
+        minlength="2"
+        required
+        [ngClass]="{
+          'is-invalid': address.errors && address.touched,
+          'is-valid': !address.errors && address.touched
+        }"
+        (input)="searchAddress(address)"
+      />
+
+      <ul class="auto-complete-list" [ngClass]="{ 'd-none': !cities }">
+        <li *ngFor="let city of cities" (click)="chooseCity(city)">
+          {{ city.english_name }} - {{ city.name }} - {{ city.shem_napa }}
+        </li>
+      </ul>
+
+      <div [hidden]="!address.errors?.required" class="invalid-feedback">
+        Please enter your address
+      </div>
+      <div [hidden]="!address.errors?.minlength" class="invalid-feedback">
+        The address must be at least
+        {{ address.errors?.minlength?.requiredLength }} characters
+      </div>
+    </div>
+    <!-- Notes -->
+    <div class="form-group">
+      <label for="notes">Notes</label>
+      <textarea
+        #notes="ngModel"
+        [(ngModel)]="newCustomer.notes"
+        name="notes"
+        id="notes"
+        class="form-control"
+        cols="30"
+        rows="10"
+      ></textarea>
+    </div>
+
+    <div class="fixed-bottom bg-light p-3 mt-4 text-center">
+      <button class="btn btn-secondary" routerLink="/customers">Cancel</button>
+      <input
+        type="reset"
+        class="btn btn-danger mx-3"
+        value="Reset"
+        (click)="resetForm(customerForm)"
+      />
+      <button
+        class="btn btn-primary"
+        type="submit"
+        [disabled]="!customerForm.valid"
+      >
+        Add
+      </button>
+    </div>
+  </form>
+</div>

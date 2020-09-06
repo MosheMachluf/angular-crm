@@ -1,0 +1,19 @@
+.main {
+  background: white;
+}
+
+.border-card {
+  border-left: 4px solid crimson;
+}
+
+@media (max-width: 992px) {
+  .sidenav.hide {
+    margin-left: -250px;
+    transition: all 0.3s ease;
+  }
+
+  .sidenav.open {
+    margin-left: 0;
+    transition: all 0.3s ease;
+  }
+}

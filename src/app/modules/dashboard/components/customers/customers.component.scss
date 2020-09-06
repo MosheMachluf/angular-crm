@@ -1,0 +1,15 @@
+.input-group-text>svg {
+  margin: 0;
+}
+
+.show-hover {
+  visibility: hidden;
+}
+
+tr:hover .show-hover {
+  visibility: visible;
+}
+
+.form-control {
+  height: 38px;
+}

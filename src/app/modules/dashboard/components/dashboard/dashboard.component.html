@@ -1,0 +1,76 @@
+<app-page-header title="dashboard" icon="fas fa-chart-line"></app-page-header>
+
+<div class="row">
+  <div class="col-lg">
+    <!-- Customers && Contacts -->
+    <div class="row">
+      <!-- Customers -->
+      <div class="col-sm-6 col-lg mb-3">
+        <app-mini-card
+          [title]="countCustomers"
+          color="primary"
+          link="/customers"
+          icon="fas fa-users"
+          linkText="Customers"
+        >
+        </app-mini-card>
+      </div>
+
+      <!-- Contacts -->
+      <div class="col-sm-6 col-lg mb-3">
+        <app-mini-card
+          [title]="countContacts"
+          color="success"
+          link="/contacts"
+          icon="fas fa-address-book"
+          linkText="Contacts"
+        >
+        </app-mini-card>
+      </div>
+    </div>
+    <!-- Leads && Reports -->
+    <div class="row">
+      <!-- Leads -->
+      <div class="col-sm-6 col-lg mb-3">
+        <app-mini-card
+          title="--"
+          color="danger"
+          link="/reports"
+          icon="fas fa-flag"
+          linkText="Reports"
+        >
+        </app-mini-card>
+      </div>
+      <!-- Reports -->
+      <div class="col-sm-6 col-lg mb-3">
+        <app-mini-card
+          title="--"
+          color="warning"
+          link="/leads"
+          icon="fas fa-hand-point-up"
+          linkText="Leads"
+        >
+        </app-mini-card>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg">
+    <div class="row">
+      <div class="col-12 mb-3">
+        <app-card>
+          <app-chart></app-chart>
+        </app-card>
+      </div>
+    </div>
+  </div>
+</div>
+<!--
+<div class="row">
+  <div class="col-lg-8 mb-3">
+    <app-card></app-card>
+  </div>
+  <div class="col-lg-4 mb-3">
+    <app-card></app-card>
+  </div>
+</div> -->

@@ -1,0 +1,36 @@
+<nav *ngIf="authService.user" class="navbar-dark p-0 sidenav" [hidden]="!open">
+  <div class="text-center">
+    <a
+      class="navbar-brand mx-auto my-3"
+      style="font-size: 1.75rem"
+      routerLink="/"
+      >Royal<b>CRM</b>
+      <i class="fas fa-angle-double-up ml-2" style="color: crimson"></i
+    ></a>
+  </div>
+
+  <hr class="m-0" />
+
+  <ul class="navbar-nav flex-column">
+    <li *ngFor="let item of navItems" class="nav-item">
+      <a
+        [routerLink]="item.link"
+        class="nav-link"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        <i [ngClass]="item.icon" style="width: 3rem; font-size: 1rem"></i>
+        <span> {{ item.title | titlecase }} </span>
+        <span class="float-right"><i class="fas fa-chevron-right"></i></span>
+      </a>
+    </li>
+  </ul>
+
+  <div class="logout navbar-nav">
+    <a appLogout [routerLink]="" class="nav-link">
+      <i class="fas fa-sign-out-alt" style="width: 3rem; font-size: 1rem"></i>
+      <span> Logout </span>
+    </a>
+  </div>
+</nav>
+<!-- class="dropdown-item"  -->

@@ -1,0 +1,34 @@
+<!-- <nav class="navbar navbar-expand-md navbar-dark shadow bg-dark"> -->
+<nav class="navbar navbar-expand-md navbar-light shadow-sm bg-light nowrap">
+  <!-- Hamburger Mobile -->
+  <button class="btn p-0 hamburger d-lg-none" (click)="toggleNav()">
+    <i class="fas fa-align-left" style="font-size: 1.3rem"></i>
+  </button>
+  <!-- if logged in -->
+  <ng-container *ngIf="authService.user">
+    <!-- Search -->
+    <div class="input-group center d-none">
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Search..."
+        style="max-width: 300px"
+      />
+      <div class="input-group-append">
+        <button class="btn btn-info" type="button">
+          <i class="fas fa-search m-0"></i>
+        </button>
+      </div>
+    </div>
+
+    <div class="row ml-auto mr-2 p-2">
+      <small class="text-muted">{{ authService.user.email }}</small>
+      <img
+        src="assets/images/avatar.png"
+        class="border ml-3"
+        alt="admin_avatar"
+        style="width: 24px"
+      />
+    </div>
+  </ng-container>
+</nav>

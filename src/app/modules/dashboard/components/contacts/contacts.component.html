@@ -1,0 +1,61 @@
+<app-page-header [title]="'contacts'" icon="fas fa-address-book">
+</app-page-header>
+
+<div class="row mt-3">
+  <div class="col-12">
+    <ng-container *ngIf="contacts; else loading">
+      <h4>{{ "company employees contact table" | titlecase }}</h4>
+      <div class="table-responsive">
+        <table
+          *ngIf="contacts.length; else noContacts"
+          class="table table-hover table-striped table-bordered"
+        >
+          <thead class="thead-dark">
+            <tr>
+              <th>No.</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Birthday</th>
+              <th>Phones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="
+                let contact of contacts
+                  | paginate: { itemsPerPage: 5, currentPage: p }
+              "
+            >
+              <td>{{ contact.id }}</td>
+              <td>{{ contact.name | titlecase }}</td>
+              <td>{{ contact.email | lowercase }}</td>
+              <td>{{ contact.birthday | date: "dd/M/yyyy" }}</td>
+              <td>
+                <ul *ngIf="contact.phones?.length; else noPhones">
+                  <li *ngFor="let phone of contact.phones">{{ phone }}</li>
+                </ul>
+
+                <ng-template #noPhones>
+                  <p><i>No phones...</i></p>
+                </ng-template>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <ng-template #noContacts>
+        <p><i>Users are not found</i></p>
+      </ng-template>
+    </ng-container>
+
+    <ng-template #loading>
+      <div class="center">
+        <div class="spinner-border text-info" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+      </div>
+    </ng-template>
+    <pagination-controls (pageChange)="p = $event" maxSize="3">
+    </pagination-controls>
+  </div>
+</div>

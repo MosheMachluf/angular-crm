@@ -1,0 +1,151 @@
+<ng-container *ngIf="paramsObs | async as customer; else noCustomer">
+  <app-page-header
+    title="customer details"
+    icon="fas fa-eye"
+    [description]="customer.firstName + ' ' + customer.lastName | titlecase"
+  >
+  </app-page-header>
+
+  <div class="row d-none">
+    <form
+      autocomplete="off"
+      novalidate
+      class="col-md-8 mx-auto"
+      #customerForm="ngForm"
+    >
+      <!-- First Name, Last Name -->
+      <div class="row">
+        <div class="col-md-6 form-group">
+          <label for="">First Name</label>
+          <input
+            type="text"
+            class="form-control"
+            [value]="customer.firstName"
+            disabled
+          />
+        </div>
+
+        <div class="col-md-6 form-group">
+          <label for="">Last Name</label>
+          <input
+            type="text"
+            class="form-control"
+            [value]="customer.lastName"
+            disabled
+          />
+        </div>
+      </div>
+
+      <!-- Email, Phone -->
+      <div class="row">
+        <div class="col-md-6 form-group">
+          <label for="">Email</label>
+          <input
+            type="text"
+            class="form-control"
+            [value]="customer.email"
+            disabled
+          />
+        </div>
+
+        <div class="col-md-6 form-group">
+          <label for="">Phone</label>
+          <input
+            type="tel"
+            class="form-control"
+            [value]="customer.phone"
+            disabled
+          />
+        </div>
+      </div>
+
+      <!-- Address -->
+      <div class="form-group">
+        <label for="">Address</label>
+        <input
+          type="text"
+          class="form-control"
+          [value]="customer.address"
+          disabled
+        />
+      </div>
+      <!-- Notes -->
+      <div class="form-group">
+        <label for="">Notes</label>
+        <textarea disabled cols="30" rows="10" class="form-control">{{
+          customer.notes
+        }}</textarea>
+      </div>
+
+      <div class="fixed-bottom bg-light p-3 text-center">
+        <button class="btn btn-secondary" routerLink="/customers">Back</button>
+      </div>
+    </form>
+  </div>
+
+  <div *ngIf="paramsObs | async as customer; else noCustomer">
+    <div class="row">
+      <div class="col-12">
+        <div class="col-lg-8 mx-auto">
+          <p>
+            <button
+              class="btn btn-light shadow-sm border"
+              routerLink="/customers"
+            >
+              <i class="fas fa-arrow-alt-circle-left"></i>
+              Back
+            </button>
+          </p>
+
+          <table class="table table-bordered text-capitalize">
+            <tbody>
+              <tr>
+                <td><b>First Name:</b></td>
+                <td>{{ customer.firstName }}</td>
+              </tr>
+              <tr>
+                <td><b>Last Name:</b></td>
+                <td>{{ customer.lastName }}</td>
+              </tr>
+              <tr>
+                <td><b>Email:</b></td>
+                <td class="text-lowercase">
+                  <a [href]="'mailto:' + customer.email">
+                    {{ customer.email }}</a
+                  >
+                </td>
+              </tr>
+              <tr>
+                <td><b>Phone:</b></td>
+                <td>
+                  <a [href]="'tel:' + customer.phone"> {{ customer.phone }}</a>
+                </td>
+              </tr>
+              <tr>
+                <td><b>Notes:</b></td>
+                <td>{{ customer.notes }}</td>
+              </tr>
+              <tr>
+                <td><b>Created:</b></td>
+                <td>{{ customer.createdAt | date: "dd/MM/yyyy HH:mm" }}</td>
+              </tr>
+              <tr>
+                <td><b>Address:</b></td>
+                <td>{{ customer.address }}</td>
+              </tr>
+              <tr>
+                <td><b>Google Maps:</b></td>
+                <td>Soon ...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>
+<ng-template #noCustomer>
+  <div class="card card-body">
+    <p><i>no customer</i></p>
+  </div>
+</ng-template>

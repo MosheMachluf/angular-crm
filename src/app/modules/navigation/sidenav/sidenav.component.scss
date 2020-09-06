@@ -1,0 +1,47 @@
+$primary: #3a2d83 !important;
+
+// #3a2d83
+nav {
+  background: linear-gradient(45deg, #143566, #02717a);
+  position: sticky;
+  top: 0;
+  height: 100vh;
+
+  ul {
+    width: 100%;
+  }
+
+  a {
+    padding: 1rem 1.5rem;
+  }
+
+  a.active {
+    background: rgba(255, 255, 255, 0.1);
+  }
+}
+
+.sidenav {
+  min-width: 250px;
+  max-width: 250px;
+}
+
+.logout {
+  position: absolute;
+  bottom: 0;
+  margin: 20px;
+}
+
+// Extra small
+// 576px
+
+// Small
+// 576px
+
+// Medium
+// 768px
+
+// Large
+// 992px
+
+// Extra large
+// 1200px

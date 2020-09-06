@@ -1,0 +1,187 @@
+<app-page-header
+  title="customers"
+  icon="fas fa-users"
+  description="list of customers"
+></app-page-header>
+
+<div class="row">
+  <div class="col-12">
+    <div class="row align-items-end" id="options">
+      <!-- First-Name Search -->
+      <div class="d-none d-lg-block col-md form-group">
+        <label for="search_first_name" class="hide-label"
+          >Search By Phone</label
+        >
+        <div class="input-group flex-nowrap">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="addon-wrapping">
+              <i class="fas fa-search"></i>
+            </span>
+          </div>
+          <input
+            type="text"
+            class="form-control"
+            [(ngModel)]="searchFirstName"
+            name="searchFirstName"
+            placeholder="First Name"
+            id="search_first_name"
+          />
+        </div>
+      </div>
+      <!-- Last-Name Search -->
+      <div class="d-none d-lg-block col-md form-group">
+        <label for="search_last_name" class="hide-label">Search By Phone</label>
+        <div class="input-group flex-nowrap">
+          <div class="input-group-prepend">
+            <div class="input-group-text" id="addon-wrapping">
+              <i class="fas fa-search"></i>
+            </div>
+          </div>
+          <input
+            type="text"
+            class="form-control"
+            [(ngModel)]="searchLastName"
+            name="searchLastName"
+            placeholder="Last Name"
+            id="search_last_name"
+          />
+        </div>
+      </div>
+      <!-- Phone Search -->
+      <div class="d-none d-lg-block col-md form-group">
+        <label for="search_phone" class="hide-label">Search By Phone</label>
+        <div class="input-group flex-nowrap">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="addon-wrapping">
+              <i class="fas fa-search"></i>
+            </span>
+          </div>
+          <input
+            type="text"
+            class="form-control"
+            [(ngModel)]="searchPhone"
+            name="searchPhone"
+            placeholder="Phone"
+            id="search_phone"
+          />
+        </div>
+      </div>
+      <!-- Select Amount Of Customers In Page -->
+      <div class="d-none d-lg-block col-md form-group">
+        <label for="amount_customers" class="hide-label">Show customers</label>
+        <select
+          class="form-control"
+          id="amount_customers"
+          (change)="changeAmountCustomers($event)"
+        >
+          <option
+            [value]="amountCustomer"
+            selected="selected"
+            disabled="disabled"
+          >
+            Show {{ amountCustomer }} customers...
+          </option>
+          <option value="5">Show 5 customers</option>
+          <option value="10">Show 10 customers</option>
+          <option value="15">Show 15 customers</option>
+          <option value="20">Show 20 customers</option>
+          <option value="30">Show 30 customers</option>
+          <option value="50">Show 50 customers</option>
+        </select>
+      </div>
+      <!-- New-Customer Button -->
+      <div class="col-md form-group">
+        <app-button
+          icon="fas fa-plus-circle"
+          class="float-right"
+          routerLink="add"
+        >
+          Add New Customer
+        </app-button>
+      </div>
+    </div>
+
+    <ng-container *ngIf="customers | async as customers_arr; else loading">
+      <div class="table-responsive">
+        <table
+          *ngIf="customers_arr.length; else noCustomers"
+          class="table table-hover table-bordered"
+        >
+          <thead class="thead-dark">
+            <tr>
+              <th>#</th>
+              <th>First Name</th>
+              <th>Last Name</th>
+              <th class="d-none d-lg-table-cell">Email</th>
+              <th class="d-none d-lg-table-cell">Phone</th>
+              <th class="d-none d-lg-table-cell">Address</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="
+                let customer of customers_arr
+                  | filterArray: 'firstName':searchFirstName
+                  | filterArray: 'lastName':searchLastName
+                  | filterArray: 'phone':searchPhone
+                  | paginate: { itemsPerPage: amountCustomer, currentPage: p };
+                index as idx
+              "
+            >
+              <th>
+                {{ idx + 1 }}
+                <span class="float-right show-hover d-none d-lg-table-cell">
+                  <!-- View -->
+                  <a [routerLink]="customer.id">
+                    <i class="fas fa-eye"></i>
+                  </a>
+                  <!-- Edit -->
+                  <a [routerLink]="[customer.id, 'edit']">
+                    <i class="fas fa-user-edit"> </i>
+                  </a>
+                  <!-- Delete -->
+                  <a (click)="removeCustomer(customer.id)">
+                    <i class="far fa-trash-alt"></i>
+                  </a>
+                </span>
+              </th>
+              <td>{{ customer.firstName | titlecase }}</td>
+              <td>{{ customer.lastName | titlecase }}</td>
+              <td class="d-none d-lg-table-cell">
+                <a [href]="'mailto:' + customer.email">{{
+                  customer.email | lowercase
+                }}</a>
+              </td>
+              <td class="d-none d-lg-table-cell">
+                <a [href]="'tel:' + customer.phone">{{ customer.phone }}</a>
+              </td>
+              <td class="d-none d-lg-table-cell">
+                <ng-template [ngIf]="customer.address" [ngIfElse]="noAddress">
+                  {{ customer.address | titlecase }}
+                </ng-template>
+
+                <ng-template #noAddress>
+                  <i>---</i>
+                </ng-template>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <pagination-controls (pageChange)="p = $event" maxSize="5">
+      </pagination-controls>
+
+      <ng-template #noCustomers>
+        <p class="h6 text-center my-4"><i>Users are not found</i></p>
+      </ng-template>
+    </ng-container>
+    <ng-template #loading>
+      <div class="center">
+        <div class="spinner-border text-info" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+</div>
