@@ -1,4 +1,7 @@
 # RoyalCrm
+https://royal-crm-project.web.app/
+Email: admin@gmail.com,
+Passowrd: 123456
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.1.6.
 
