@@ -7,7 +7,7 @@
   <!-- if logged in -->
   <ng-container *ngIf="authService.user">
     <!-- Search -->
-    <div class="input-group center d-none">
+    <!-- <div class="input-group center">
       <input
         type="text"
         class="form-control"
@@ -19,10 +19,10 @@
           <i class="fas fa-search m-0"></i>
         </button>
       </div>
-    </div>
+    </div> -->
 
-    <div class="row ml-auto mr-2 p-2">
-      <small class="text-muted">{{ authService.user.email }}</small>
+    <div class="ml-auto center p-2 pr-3">
+      <div class="text-muted">{{ authService.user.email }}</div>
       <img
         src="assets/images/avatar.png"
         class="border ml-3"
